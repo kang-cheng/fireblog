@@ -7,6 +7,7 @@ var fireblogApp = angular.module('fireblogApp', [
     'firebase',
     
     'fireblogControllers',
+    'fireblogServices',
 ]);
 
 fireblogApp.config(function($routeProvider) {

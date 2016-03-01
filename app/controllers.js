@@ -4,29 +4,38 @@
 
 var fireblogControllers = angular.module('fireblogControllers', []);
 
-fireblogControllers.controller('OptionCtrl', ['$scope', "$firebaseObject", 
-	function ($scope, $firebaseObject){
-        var ref = new Firebase("https://github-pages.firebaseio.com/options/");
-        $scope.option =  $firebaseObject(ref);
-}]);
+fireblogControllers.controller('OptionCtrl', ['$scope', "OptionService", 
+	function ($scope, OptionService){
+        $scope.option =  OptionService.basic();
+    }
+]);
 
-fireblogControllers.controller('BlogListCtrl', ['$scope', "$firebaseArray",
-	function ($scope, $firebaseArray){
-		var ref = new Firebase("https://github-pages.firebaseio.com/blogs");
-	    $scope.blogs =  $firebaseArray(ref);
-}]);
+fireblogControllers.controller('BlogListCtrl', ['$scope', "BlogService", "OptionService",
+	function ($scope, BlogService, OptionService){
+        $scope.blogs = BlogService.getAll();
+        
+        var page_name = "HOME";
+        var site_name = OptionService.setSiteTitle(page_name);
+    }
+]);
 
 
-fireblogControllers.controller('BlogDetailCtrl', ['$scope', "$firebaseObject", "$sce", "$routeParams",
-	function ($scope, $firebaseObject, $sce, $routeParams){
-        var ref = new Firebase("https://github-pages.firebaseio.com/blogs/"+$routeParams.blogId);
+fireblogControllers.controller('BlogDetailCtrl', ['$scope', "BlogService", "OptionService", "$sce", "$routeParams",
+	function ($scope, BlogService, OptionService, $sce, $routeParams){
         $scope.trustAsHtml = $sce.trustAsHtml;
-        $scope.blog =  $firebaseObject(ref);
-}]);
+        $scope.blogs =  BlogService.getAll();
+        
+        $scope.blogs.$loaded().then(function () {
+            $scope.blog = $scope.blogs.$getRecord($routeParams.blogId);
+            var page_name = $scope.blog.title;
+            var site_name = OptionService.setSiteTitle(page_name);
+        });
+    }
+]);
 
 
-fireblogControllers.controller('BlogPostCtrl', ['$scope', "$window", "$firebaseArray", "$firebaseObject",
-	function ($scope, $window, $firebaseArray, $firebaseObject){
+fireblogControllers.controller('BlogPostCtrl', ['$scope', "OptionService", "$window",
+	function ($scope, OptionService, $window){
 		$scope.title = "";
 		$(editor.getElement('editor').body).html("");
 		$($(editor.getElement('previewer').body).children()[0]).html("");
@@ -51,21 +60,23 @@ fireblogControllers.controller('BlogPostCtrl', ['$scope', "$window", "$firebaseA
                 $window.location.href = "#/p="+id
             }
 	    };
-}]);
+        
+        var page_name = "NEW";
+        var site_name = OptionService.setSiteTitle(page_name);
+    }
+]);
 
 
-fireblogControllers.controller('BlogEditCtrl', ['$scope', "$window", "$firebaseArray", "$firebaseObject", "$sce", "$routeParams",
-	function ($scope, $window, $firebaseArray, $firebaseObject, $sce, $routeParams){
+fireblogControllers.controller('BlogEditCtrl', ['$scope', "OptionService", "$window", "$firebaseObject", "$sce", "$routeParams",
+	function ($scope, OptionService, $window, $firebaseObject, $sce, $routeParams){
         var blogRef = new Firebase("https://github-pages.firebaseio.com/blogs/"+$routeParams.blogId);
-        blog =  $firebaseObject(blogRef);
+        var blog =  $firebaseObject(blogRef);
 
 		blog.$loaded()
 		  .then(function(data) {
 	  		$scope.blog = data;
 			$scope.title = $scope.blog.title;
-			console.log(data)
-	        $(editor.getElement('editor').body).html(data.raw_content)
-	        console.log(data.raw_content)
+	        $(editor.getElement('editor').body).html(data.raw_content);
 
 		  })
 		  .catch(function(error) {
@@ -81,8 +92,12 @@ fireblogControllers.controller('BlogEditCtrl', ['$scope', "$window", "$firebaseA
                 blog.raw_content = raw_content;
                 blog.date = date;
                 blog.$save();
-                $(editor.getElement('editor').body).html("")
-                $window.location.href = "#/p="+blog.$id
+                $(editor.getElement('editor').body).html("");
+                $window.location.href = "#/p="+blog.$id;
             }
 	    };
-}]);
+        
+        var page_name = "EDIT";
+        var site_name = OptionService.setSiteTitle(page_name);
+    }
+]);
