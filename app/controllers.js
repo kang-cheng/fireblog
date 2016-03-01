@@ -1,37 +1,17 @@
-var fireblogApp = angular.module('fireblogApp', ['ngRoute', 'firebase']);
+'use strict';
 
-fireblogApp.config(function($routeProvider) {
-	$routeProvider.
-		when('/', {
-			templateUrl: './template/blog-list.html',
-			controller: 'BlogListCtrl'
-		}).
-		when('/p=:blogId', {
-			templateUrl: './template/blog-detail.html',
-			controller: 'BlogDetailCtrl'
-		}).
-		when('/edit=:blogId', {
-			templateUrl: './template/blog-edit.html',
-			controller: 'BlogEditCtrl'
-		}).
-		when('/post', {
-			templateUrl: './template/blog-post.html',
-			controller: 'BlogPostCtrl'
-		}).
-		otherwise({
-			redirectTo: '/'
-		});
-});
+/* Controllers */
 
+var fireblogControllers = angular.module('fireblogControllers', []);
 
-fireblogApp.controller('BlogListCtrl', ['$scope', "$firebaseArray",
+fireblogControllers.controller('BlogListCtrl', ['$scope', "$firebaseArray",
 	function ($scope, $firebaseArray){
 		var ref = new Firebase("https://github-pages.firebaseio.com/blogs");
 	    $scope.blogs =  $firebaseArray(ref);
 }]);
 
 
-fireblogApp.controller('BlogDetailCtrl', ['$scope', "$firebaseObject", "$sce", "$routeParams",
+fireblogControllers.controller('BlogDetailCtrl', ['$scope', "$firebaseObject", "$sce", "$routeParams",
 	function ($scope, $firebaseObject, $sce, $routeParams){
         var ref = new Firebase("https://github-pages.firebaseio.com/blogs/"+$routeParams.blogId);
         $scope.trustAsHtml = $sce.trustAsHtml;
@@ -39,7 +19,7 @@ fireblogApp.controller('BlogDetailCtrl', ['$scope', "$firebaseObject", "$sce", "
 }]);
 
 
-fireblogApp.controller('BlogPostCtrl', ['$scope', "$window", "$firebaseArray", "$firebaseObject",
+fireblogControllers.controller('BlogPostCtrl', ['$scope', "$window", "$firebaseArray", "$firebaseObject",
 	function ($scope, $window, $firebaseArray, $firebaseObject){
 		$scope.title = "";
 		$(editor.getElement('editor').body).html("");
@@ -68,7 +48,7 @@ fireblogApp.controller('BlogPostCtrl', ['$scope', "$window", "$firebaseArray", "
 }]);
 
 
-fireblogApp.controller('BlogEditCtrl', ['$scope', "$window", "$firebaseArray", "$firebaseObject", "$sce", "$routeParams",
+fireblogControllers.controller('BlogEditCtrl', ['$scope', "$window", "$firebaseArray", "$firebaseObject", "$sce", "$routeParams",
 	function ($scope, $window, $firebaseArray, $firebaseObject, $sce, $routeParams){
         var blogRef = new Firebase("https://github-pages.firebaseio.com/blogs/"+$routeParams.blogId);
         blog =  $firebaseObject(blogRef);
