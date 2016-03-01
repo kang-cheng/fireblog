@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="fireblogApp">
+<html lang="en" ng-app="fireblogApp" ng-controller="OptionCtrl as option">
 
 <head>
 
@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>CHENG KANG</title>
+    <title>{{option.sitename}}</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="./static/css/bootstrap.min.css" rel="stylesheet">
@@ -18,9 +18,11 @@
     <link href="./static/css/clean-blog.min.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-  <!--   <link href="css/font-awesome.min.css" rel="stylesheet">
+    <!--   
+    <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/font1.css" rel="stylesheet">
-    <link href="css/font2.css" rel="stylesheet"> -->
+    <link href="css/font2.css" rel="stylesheet"> 
+    -->
     
     
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -50,23 +52,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#/" id="back_to_index">CHENG KANG</a>
+                <a class="navbar-brand" href="#/" id="back_to_index">{{option.sitename}}</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="#/">Home</a>
+                        <a href="index.html">Home</a>
                     </li>
                     <li>
-                        <a href="#/articles">Articles</a>
+                        <a href="about.html">About</a>
                     </li>
                     <li>
-                        <a href="#/categories">Categories</a>
+                        <a href="post.html?id=1">Sample Post</a>
                     </li>
                     <li>
-                        <a href="#/tags">Tags</a>
+                        <a href="contact.html">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -123,8 +125,6 @@
     <!-- Custom Theme JavaScript -->
     <script src="./static/js/clean-blog.min.js"></script>
     
-    <!--  AngularJS and Firebase  -->
-    
     <script src="./static/js/angular.min.js"></script>
     <script src="./static/js/firebase.js"></script>
     <script src="./static/js/angularfire.min.js"></script>
@@ -141,7 +141,6 @@
      
      
 
-    <!--  FireBlog  -->
     <script src="./app/app.js"></script>
     <script src="./app/controllers.js"></script>
 

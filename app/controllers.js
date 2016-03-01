@@ -4,6 +4,12 @@
 
 var fireblogControllers = angular.module('fireblogControllers', []);
 
+fireblogControllers.controller('OptionCtrl', ['$scope', "$firebaseObject", 
+	function ($scope, $firebaseObject){
+        var ref = new Firebase("https://github-pages.firebaseio.com/options/");
+        $scope.option =  $firebaseObject(ref);
+}]);
+
 fireblogControllers.controller('BlogListCtrl', ['$scope', "$firebaseArray",
 	function ($scope, $firebaseArray){
 		var ref = new Firebase("https://github-pages.firebaseio.com/blogs");
