@@ -1,0 +1,38 @@
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('img/home-bg.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1 style="color:white;">程 康</h1>
+                        <hr class="small">
+                        <span class="subheading">Let's make some noise.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+        <div class="container">
+        	<input ng-model="title" type="text" class="form-control" placeholder="请输入标题" style="border:2px solid rgb(41,41,41)">
+        	<hr>
+	        <div id="epiceditor"></div>
+        	<hr>
+	        <input ng-click="newBlog()" class="btn btn-default" type="submit" value="Submit">
+		</div>
+    </article>
+
+    <hr>
+<script src="../epiceditor/js/epiceditor.js"></script>
+<script type="text/javascript">
+	var opts = {
+			autogrow: {
+				minHeight: 500
+				}
+		}
+	var editor = new EpicEditor(opts).load();
+</script>
