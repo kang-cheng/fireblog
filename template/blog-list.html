@@ -20,22 +20,22 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-preview" ng-repeat="i in range(currentN()) track by $index" >
-                    <a href="#/p={{blogs[$index+(current_page-1)*10].$id}}">
+                    <a href="#/p={{blogs[count-1-($index+(current_page-1)*10)].$id}}">
                         <h2 class="post-title">
-                            {{blogs[$index+(current_page-1)*10].title}}
+                            {{blogs[count-1-($index+(current_page-1)*10)].title}}
                         </h2>
-                            <a href="#/cat={{blogs[$index+(current_page-1)*10].cat}}">
+                            <a href="#/cat={{blogs[count-1-($index+(current_page-1)*10)].cat}}">
                         <h3 class="post-subtitle">
-                                {{blogs[$index+(current_page-1)*10].cat}}
+                                {{blogs[count-1-($index+(current_page-1)*10)].cat}}
                         </h3>
                             </a>
                     </a>
                     <p class="post-meta">
-                        <span ng-repeat="tag in blogs[$index+(current_page-1)*10].tags.split(' ')">
+                        <span ng-repeat="tag in blogs[count-1-($index+(current_page-1)*10)].tags.split(' ')">
                             <a href="#/tag={{tag}}">{{tag}}</a>
                         </span>
                     </p>
-                    <p class="post-meta">发布于 {{blogs[$index+(current_page-1)*10].date | date:"MM/dd/yyyy @ h:mma"}}</p>
+                    <p class="post-meta">发布于 {{blogs[count-1-($index+(current_page-1)*10)].date | date:"MM/dd/yyyy @ h:mma"}}</p>
                     <!-- <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on {{blog.date}}</p> -->
                     <!-- 此处最好修改一下 -->
                     <hr>

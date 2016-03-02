@@ -20,6 +20,18 @@ fireblogApp.config(function($routeProvider) {
 			templateUrl: '../template/blog-detail.html',
 			controller: 'BlogDetailCtrl'
 		}).
+		when('/archives', {
+			templateUrl: '../template/archives.html',
+			controller: 'ArchiveCtrl'
+		}).
+		when('/cats', {
+			templateUrl: '../template/cat-all.html',
+			controller: 'CatAllCtrl'
+		}).
+		when('/tags', {
+			templateUrl: '../template/tag-all.html',
+			controller: 'TagAllCtrl'
+		}).
 		when('/edit=:blogId', {
 			templateUrl: '../template/blog-edit.html',
 			controller: 'BlogEditCtrl'

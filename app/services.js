@@ -8,25 +8,40 @@ fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
     function($firebaseArray, $firebaseObject) {
         var cacheData;
         var allTags = {};
+        var allCats = {};
         
-        function setAllTags(cacheData){
+        function setAllTagsAndCats(cacheData){
             var tags;
+            var cat;
             cacheData.$loaded().then(function () {
                 for(var j=0;j<cacheData.length;j++){
-                    console.log(cacheData[j].tags);
                     if('tags' in cacheData[j]){
                         tags = cacheData[j].tags.split(" ");
-                        console.log(tags);
                         for (var i=0; i<tags.length; i++){
+                            if(tags[i]==""){
+                                continue;
+                            }
                             if(tags[i] in allTags){
-                                allTags[tags[i]]++;
+                                allTags[tags[i]]['count']++;
+                                allTags[tags[i]]['id'].push(cacheData[j].$id);
                             }else{
-                                allTags[tags[i]] = 1;
+                                allTags[tags[i]] = {'count':1, 'id': [cacheData[j].$id]};
                             }
                         }
                     }
+                    
+                    if('cat' in cacheData[j]){
+                        cat = cacheData[j].cat;
+                        if(cat in allTags){
+                            allCats[cat]['count']++;
+                            allCats[cat]['id'].push(cacheData[j].$id);
+                        }else{
+                            allCats[cat] = {'count':1, 'id': [cacheData[j].$id]};
+                        }
+                    }
                 }
-            console.log(allTags);
+//            console.log(allTags);
+//            console.log(allCats);
             });
         }
         
@@ -37,7 +52,7 @@ fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
                 var ref = new Firebase("https://github-pages.firebaseio.com/blogs");
                 cacheData =  $firebaseArray(ref);
                 
-                setAllTags(cacheData);
+                setAllTagsAndCats(cacheData);
                 
                 return cacheData;
             }
@@ -58,8 +73,13 @@ fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
             getObjectByID: function(id) {
                 return getObjectByID(id);
             },
-            getAllTags: function(tags) {
+            getAllTags: function() {
+                getData();
                 return allTags;
+            },
+            getAllCats: function() {
+                getData();
+                return allCats;
             },
         };
     }
@@ -90,6 +110,14 @@ fireblogServices.factory("OptionService", ["$firebaseObject",
                 basic.$loaded().then(function () {
                     $('title').text(page_name+" - "+basic.sitename);
                 });
+            },
+            setCurrentNav: function(page_name) {
+                $("#home_link").css("font-size","12px");
+                $("#archives_link").css("font-size","12px");
+                $("#cats_link").css("font-size","12px");
+                $("#tags_link").css("font-size","12px");
+                
+                $("#"+page_name+"_link").css("font-size","20px");
             }
         };
     }
