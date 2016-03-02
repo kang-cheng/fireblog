@@ -227,12 +227,14 @@ hr.small {
   margin: 0;
   font-weight: 300;
   margin-bottom: 10px;
+    font-size: 25px;
 }
 .post-preview > .post-meta {
   color: #808080;
   font-size: 18px;
   font-style: italic;
   margin-top: 0;
+    margin-bottom: 18px;
 }
 .post-preview > .post-meta > a {
   text-decoration: none;

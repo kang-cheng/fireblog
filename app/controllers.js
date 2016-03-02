@@ -12,7 +12,53 @@ fireblogControllers.controller('OptionCtrl', ['$scope', "OptionService",
 
 fireblogControllers.controller('BlogListCtrl', ['$scope', "BlogService", "OptionService",
 	function ($scope, BlogService, OptionService){
+        $scope.current_page = 1;
+        $scope.count = 0;
+        $scope.perpage = 10;
+        
         $scope.blogs = BlogService.getAll();
+        
+        $scope.blogs.$loaded().then(function () {
+            //to make sure that $scope.blogs is already loaded, otherwise length doesn't exist
+            $scope.count = $scope.blogs.length;
+        });
+        
+        $scope.totalPage = function() {
+            //if $scope.count==0, means at this moment the data hasn't been loaded.
+            return $scope.count==0?1:Math.ceil($scope.count/$scope.perpage);
+        }
+        
+        //currentN is the number of articles of the current page.
+        $scope.currentN = function() {
+            var n = $scope.count - ($scope.current_page-1)*$scope.perpage;
+            return n>=10?10:n;
+        }
+        
+        $scope.hasPrev = function() {
+            return $scope.current_page==1?false:true;
+        }
+        
+        $scope.hasNext = function() {
+            return $scope.totalPage()==$scope.current_page?false:true;
+        }
+        
+        $scope.prevPage = function() {
+            if(($scope.current_page--)<1){
+                $scope.current_page = 1;
+            }
+        }
+        
+        $scope.nextPage = function() {
+            if(($scope.current_page++)>$scope.totalPage()){
+                $scope.current_page = $scope.totalPage();
+            }
+        }
+        
+        $scope.range = function(n) {
+            return new Array(n);
+        };
+        
+        $scope.BlogService = BlogService;
         
         var page_name = "HOME";
         var site_name = OptionService.setSiteTitle(page_name);
@@ -52,7 +98,7 @@ fireblogControllers.controller('BlogPostCtrl', ['$scope', "OptionService", "$win
                     content: content,
                     raw_content: raw_content,
                     date: date,
-                    description: ""
+                    snippet: ""
                 });
                 $scope.title = "";
                 $(editor.getElement('editor').body).html("")
