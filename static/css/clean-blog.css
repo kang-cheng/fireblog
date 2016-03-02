@@ -207,7 +207,10 @@ hr.small {
     font-size: 55px;
   }
   .intro-header .post-heading .subheading {
-    font-size: 30px;
+/*    font-size: 30px;*/
+        font-size: 25px;
+        color: #ccc;
+        font-weight: 300;
   }
 }
 .post-preview > a {

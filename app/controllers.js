@@ -82,13 +82,33 @@ fireblogControllers.controller('BlogDetailCtrl', ['$scope', "BlogService", "Opti
 ]);
 
 
-fireblogControllers.controller('BlogPostCtrl', ['$scope', "OptionService", "$window",
-	function ($scope, OptionService, $window){
+fireblogControllers.controller('BlogPostCtrl', ['$scope', "OptionService", "BlogService", "$window",
+	function ($scope, OptionService, BlogService, $window){
+        $scope.allCats = BlogService.getAllCats();
+        $scope.allTags = BlogService.getAllTags();
+        
 		$scope.title = "";
 		$scope.cat = "";
 		$scope.tags = "";
 		$(editor.getElement('editor').body).html("");
 		$($(editor.getElement('previewer').body).children()[0]).html("");
+        
+        $scope.selectCat = function(catname) {
+            $scope.cat = catname;
+        }
+        
+        $scope.addTag = function(tagname) {
+            $scope.tags += " "+tagname;
+        }
+        
+        $scope.clearCat = function() {
+            $scope.cat = $scope.cat.split(' ')[0].toLowerCase();
+        }
+        
+        $scope.clearTags = function() {
+            $scope.tags = $.trim($scope.tags.toLowerCase());
+        }
+        
 		$scope.newBlog = function() {
             var raw_content = $(editor.getElement('editor').body).html();
             editor.preview();
@@ -97,6 +117,9 @@ fireblogControllers.controller('BlogPostCtrl', ['$scope', "OptionService", "$win
                 var blogsRef = new Firebase("https://github-pages.firebaseio.com/blogs/");
                 var date = new Date().getTime();
                 var id = date;
+                
+                $scope.clearTags();
+                $scope.clearTags();
                 var cat = $scope.cat==""?"uncategorized":$scope.cat;
                 var tags = $scope.tags;
                 blogsRef.child(""+id).set({
@@ -122,11 +145,31 @@ fireblogControllers.controller('BlogPostCtrl', ['$scope', "OptionService", "$win
 ]);
 
 
-fireblogControllers.controller('BlogEditCtrl', ['$scope', "OptionService", "$window", "$firebaseObject", "$sce", "$routeParams",
-	function ($scope, OptionService, $window, $firebaseObject, $sce, $routeParams){
+fireblogControllers.controller('BlogEditCtrl', ['$scope', "OptionService", "BlogService", "$window", "$firebaseObject", "$sce", "$routeParams",
+	function ($scope, OptionService, BlogService, $window, $firebaseObject, $sce, $routeParams){
         var blogRef = new Firebase("https://github-pages.firebaseio.com/blogs/"+$routeParams.blogId);
         var blog =  $firebaseObject(blogRef);
-
+        
+        
+        $scope.allCats = BlogService.getAllCats();
+        $scope.allTags = BlogService.getAllTags();
+        
+        $scope.selectCat = function(catname) {
+            $scope.cat = catname;
+        }
+        
+        $scope.addTag = function(tagname) {
+            $scope.tags += " "+tagname;
+        }
+        
+        $scope.clearCat = function() {
+            $scope.cat = $scope.cat.split(' ')[0].toLowerCase();
+        }
+        
+        $scope.clearTags = function() {
+            $scope.tags = $.trim($scope.tags.toLowerCase());
+        }
+        
 		blog.$loaded()
 		  .then(function(data) {
 	  		$scope.blog = data;
@@ -139,11 +182,16 @@ fireblogControllers.controller('BlogEditCtrl', ['$scope', "OptionService", "$win
 		  .catch(function(error) {
 		    console.error("Error:", error);
 		  });
+        
 		$scope.editBlog = function() {
             var raw_content = $(editor.getElement('editor').body).html();
+            editor.preview();
             var content = $($(editor.getElement('previewer').body).children()[0]).html();
             if( $scope.title != "" && raw_content != ""){
                 var date = new Date().getTime();
+                
+                $scope.clearTags();
+                $scope.clearTags();
                 var cat = $scope.cat==""?"uncategorized":$scope.cat;
                 var tags = $scope.tags;
                 blog.title = $scope.title;
@@ -167,7 +215,6 @@ fireblogControllers.controller('BlogEditCtrl', ['$scope', "OptionService", "$win
 
 fireblogControllers.controller('CatAllCtrl', ['$scope', "BlogService", "OptionService",
 	function ($scope, BlogService, OptionService){
-        $scope.BlogService = BlogService;
         $scope.cats = BlogService.getAllCats();
         
         var page_name = "CATEGORIES";
@@ -177,7 +224,6 @@ fireblogControllers.controller('CatAllCtrl', ['$scope', "BlogService", "OptionSe
 ]);
 fireblogControllers.controller('TagAllCtrl', ['$scope', "BlogService", "OptionService",
 	function ($scope, BlogService, OptionService){
-        $scope.BlogService = BlogService;
         $scope.tags = BlogService.getAllTags();
         
         var page_name = "TAGS";

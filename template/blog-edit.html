@@ -20,6 +20,37 @@
         <div class="container">
         	<input ng-model="title" type="text" class="form-control" placeholder="请输入标题" style="border:2px solid rgb(41,41,41)">
         	<hr>
+            
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="input-group">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分类： <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="(key, value) in allCats">
+                            <a href="" ng-click="selectCat(key)">{{key}}</a>
+                        </li>
+                    </ul>
+                  </div><!-- /btn-group -->
+                  <input type="text" class="form-control" aria-label="..." ng-model="cat" placeholder="你可以选择列表中的分类，也可以输入新的分类">
+                </div><!-- /input-group -->
+              </div><!-- /.col-lg-6 -->
+              <div class="col-lg-6">
+                <div class="input-group">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">标签： <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="(key, value) in allTags">
+                            <a href="" ng-click="addTag(key)">{{key}}</a>
+                        </li>
+                    </ul>
+                  </div><!-- /btn-group -->
+                  <input type="text" class="form-control" aria-label="..." ng-model="tags" placeholder="请用空格分开标签">
+                </div><!-- /input-group -->
+              </div><!-- /.col-lg-6 -->
+            </div><!-- /.row -->
+            <hr>
+            
 	        <div id="epiceditor"></div>
         	<hr>
 	        <input ng-click="editBlog()" class="btn btn-default" type="submit" value="Submit">

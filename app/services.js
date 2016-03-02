@@ -32,7 +32,7 @@ fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
                     
                     if('cat' in cacheData[j]){
                         cat = cacheData[j].cat;
-                        if(cat in allTags){
+                        if(cat in allCats){
                             allCats[cat]['count']++;
                             allCats[cat]['id'].push(cacheData[j].$id);
                         }else{
