@@ -216,19 +216,44 @@ fireblogControllers.controller('BlogEditCtrl', ['$scope', "OptionService", "Blog
 fireblogControllers.controller('CatAllCtrl', ['$scope', "BlogService", "OptionService",
 	function ($scope, BlogService, OptionService){
         $scope.cats = BlogService.getAllCats();
+        $scope.catMax = BlogService.getCatMax();
         
         var page_name = "CATEGORIES";
         var site_name = OptionService.setSiteTitle(page_name);
         OptionService.setCurrentNav("cats");
     }
 ]);
+
+fireblogControllers.controller('CatOneCtrl', ['$scope', "BlogService", "OptionService", "$routeParams",
+	function ($scope, BlogService, OptionService, $routeParams){
+        $scope.cats = BlogService.getAllByCat();
+        $scope.catname = $routeParams.catname;
+        
+        var page_name = $routeParams.catname;
+        var site_name = OptionService.setSiteTitle(page_name);
+        OptionService.setCurrentNav("");
+    }
+]);
+
 fireblogControllers.controller('TagAllCtrl', ['$scope', "BlogService", "OptionService",
 	function ($scope, BlogService, OptionService){
         $scope.tags = BlogService.getAllTags();
+        $scope.tagMax = BlogService.getTagMax();
         
         var page_name = "TAGS";
         var site_name = OptionService.setSiteTitle(page_name);
         OptionService.setCurrentNav("tags");
+    }
+]);
+
+fireblogControllers.controller('TagOneCtrl', ['$scope', "BlogService", "OptionService", "$routeParams",
+	function ($scope, BlogService, OptionService, $routeParams){
+        $scope.tags = BlogService.getAllByTag($routeParams.tagname);
+        $scope.tagname = $routeParams.tagname;
+        
+        var page_name = $routeParams.tagname;
+        var site_name = OptionService.setSiteTitle(page_name);
+        OptionService.setCurrentNav("");
     }
 ]);
 fireblogControllers.controller('ArchiveCtrl', ['$scope', "BlogService", "OptionService",

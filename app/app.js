@@ -28,9 +28,17 @@ fireblogApp.config(function($routeProvider) {
 			templateUrl: '../template/cat-all.html',
 			controller: 'CatAllCtrl'
 		}).
+		when('/cat=:catname', {
+			templateUrl: '../template/cat-one.html',
+			controller: 'CatOneCtrl'
+		}).
 		when('/tags', {
 			templateUrl: '../template/tag-all.html',
 			controller: 'TagAllCtrl'
+		}).
+		when('/tag=:tagname', {
+			templateUrl: '../template/tag-one.html',
+			controller: 'TagOneCtrl'
 		}).
 		when('/edit=:blogId', {
 			templateUrl: '../template/blog-edit.html',
