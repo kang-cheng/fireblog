@@ -44,3 +44,7 @@ Database Structure:
 - :userid-tags
 - :userid-cats
 - users
+
+-----------
+bug:
+- need to redirect to tags/cats page to get the tag/cat cloud. if visit tags/cats page directly, the data to compute font-size is not prepared.
