@@ -216,7 +216,8 @@ fireblogControllers.controller('BlogEditCtrl', ['$scope', "OptionService", "Blog
 fireblogControllers.controller('CatAllCtrl', ['$scope', "BlogService", "OptionService",
 	function ($scope, BlogService, OptionService){
         $scope.cats = BlogService.getAllCats();
-        $scope.catMax = BlogService.getCatMax();
+//        $scope.catMax = BlogService.getCatMax();
+        $scope.BlogService = BlogService;
         
         var page_name = "CATEGORIES";
         var site_name = OptionService.setSiteTitle(page_name);
@@ -238,7 +239,8 @@ fireblogControllers.controller('CatOneCtrl', ['$scope', "BlogService", "OptionSe
 fireblogControllers.controller('TagAllCtrl', ['$scope', "BlogService", "OptionService",
 	function ($scope, BlogService, OptionService){
         $scope.tags = BlogService.getAllTags();
-        $scope.tagMax = BlogService.getTagMax();
+//        $scope.tagMax = BlogService.getTagMax();
+        $scope.BlogService = BlogService;
         
         var page_name = "TAGS";
         var site_name = OptionService.setSiteTitle(page_name);

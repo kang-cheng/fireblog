@@ -24,7 +24,7 @@
                     <hr>
                     <p class="post-meta">
                         <span ng-repeat="(key, value) in tags">
-                            <a href="#/tag={{key}}" style="font-weight:300px;font-size:{{fontsize=(tagMax!=1)?(value.count/tagMax*(24-14)+14):18;fontsize}}px;">{{key}}</a>
+                            <a href="#/tag={{key}}" style="font-weight:300px;font-size:{{fontsize=(BlogService.getTagMax()!=1)?(value.count/BlogService.getTagMax()*(24-14)+14):18;fontsize}}px;">{{key}}</a>
                         </span>
                     </p>
                     <hr>
