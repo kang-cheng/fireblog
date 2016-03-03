@@ -20,6 +20,8 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-preview">
+                    <p class="text-center"><h3>ARCHIVES</h3></p>
+                    <hr>
                     <p class="post-meta" ng-repeat="blog in blogs | orderBy:'-date'">
                         <a href="#/p={{blog.$id}}">{{blog.title}}</a>
                         发布于 {{blog.date | date:"MM/dd/yyyy @ h:mma"}}
