@@ -46,5 +46,5 @@ Database Structure:
 - users
 
 -----------
-bug:
-- need to redirect to tags/cats page to get the tag/cat cloud. if visit tags/cats page directly, the data to compute font-size is not prepared.
+to-do:
+- check if the data is still bound to the firebase data when it's added to a new array.
