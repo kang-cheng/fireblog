@@ -294,6 +294,9 @@ fireblogServices.factory("AuthService", ["$q", "$window", "$location", "$firebas
                 var deferred = $q.defer();
 
                 if (isLoggedIn) {
+                    console.log(uid!=CONFIG_UID);
+                    console.log(uid);
+                    console.log(CONFIG_UID);
                     if(uid!=CONFIG_UID){
                         deferred.reject();
                     }else{
