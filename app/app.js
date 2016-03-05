@@ -40,13 +40,45 @@ fireblogApp.config(function($routeProvider) {
 			templateUrl: '../template/tag-one.html',
 			controller: 'TagOneCtrl'
 		}).
-		when('/edit=:blogId', {
-			templateUrl: '../template/blog-edit.html',
-			controller: 'BlogEditCtrl'
+		when('/admin/login', {
+			templateUrl: '../template/login.html',
+			controller: 'LoginCtrl',
 		}).
-		when('/post', {
+		when('/admin/config', {
+			templateUrl: '../template/config.html',
+			controller: 'ConfigCtrl',
+			resolve: {
+          		permission: function (AuthService) {
+            		return AuthService.permissionCheck();
+            	}
+          	},
+		}).
+		when('/admin/archives', {
+			templateUrl: '../template/archives.html',
+			controller: 'ArchiveCtrl',
+			resolve: {
+          		permission: function (AuthService) {
+            		return AuthService.permissionCheck();
+            	}
+          	},
+		}).
+		when('/admin/edit=:blogId', {
+			templateUrl: '../template/blog-edit.html',
+			controller: 'BlogEditCtrl',
+			resolve: {
+          		permission: function (AuthService) {
+            		return AuthService.permissionCheck();
+            	}
+          	},
+		}).
+		when('/admin/post', {
 			templateUrl: '../template/blog-post.html',
-			controller: 'BlogPostCtrl'
+			controller: 'BlogPostCtrl',
+			resolve: {
+          		permission: function (AuthService) {
+            		return AuthService.permissionCheck();
+            	}
+          	},
 		}).
 		otherwise({
 			redirectTo: '/'

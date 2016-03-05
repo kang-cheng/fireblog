@@ -1,0 +1,96 @@
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('../static/img/home-bg.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1 style="color:white;">{{$parent.option.username}}</h1>
+                        <hr class="small">
+                        <span class="subheading">{{$parent.option.motto}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-preview">
+                    <p class="text-center"><h3>CONFIGS</h3></p>
+                    <hr>
+                    <p class="post-meta">
+                        你的 uid 是：{{AuthService.getUid()}}。
+                        请修改 app 文件夹中的 config.json 文件。
+                    </p>
+                    <hr>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="sitename" class="col-sm-2 control-label">站点名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="sitename" placeholder="请输入站点名称" ng-model="sitename">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label">站长名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="username" placeholder="请输入站长名" ng-model="username">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="motto" class="col-sm-2 control-label">小标题</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="motto" placeholder="请输入小标题" ng-model="motto">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="navbar_text" class="col-sm-2 control-label">导航栏文字</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="navbar_text" placeholder="请输入导航栏文字" ng-model="navbar_text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="github" class="col-sm-2 control-label">Github 用户名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="github" placeholder="请输入 Github 用户名" ng-model="github" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="facebook" class="col-sm-2 control-label">Facebook 链接</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="facebook" placeholder="请输入 Facebook 主页链接" ng-model="facebook">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="twitter" class="col-sm-2 control-label">Twitter 链接</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="twitter" placeholder="请输入 Twitter 主页链接" ng-model="twitter">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="weibo" class="col-sm-2 control-label">微博名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="" placeholder="请输入微博名" ng-model="weibo">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="weibo_link" class="col-sm-2 control-label">微博链接</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="" placeholder="请输入微博主页链接" ng-model="weibo_link">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default" ng-click="editBasicOption()">保存修改</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>

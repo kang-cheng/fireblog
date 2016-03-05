@@ -20,18 +20,13 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-preview">
-                    <p class="text-center">
-                        <h3>ARCHIVES 
-                            <span style="color: #808080;font-family: 'Lora', 'Times New Roman', serif;font-size: 18px;font-style: italic;margin-top: 0;margin-bottom: 18px;"><a href="#/admin/post" ng-if="AuthService.isLoggedIn()">new</a></span>
-                        </h3>
-                    </p>
+                    <p class="text-center"><h3>ARCHIVES</h3></p>
                     <hr>
                     <p class="post-meta" ng-repeat="blog in blogs | orderBy:'-date'">
                         <a href="#/p={{blog.$id}}">{{blog.title}}</a>
                         发布于 {{blog.date | date:"MM/dd/yyyy @ h:mma"}}
-
-                        <a href="#/admin/edit={{blog.$id}}" ng-if="AuthService.isLoggedIn()">edit</a>
-                        <a href="" ng-click="deleteBlog(blog)" ng-if="AuthService.isLoggedIn()">delete</a>
+                        <a href="#/edit={{blog.$id}}">edit</a>
+                        <a href="" ng-click="deleteBlog(blog)">delete</a>
                     </p>
                     <hr>
                 </div>

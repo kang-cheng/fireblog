@@ -18,10 +18,6 @@
     <!-- Post Content -->
     <article>
         <div class="container">
-            <p class="text-center">
-                <h3>写文章：</h3>
-            </p>
-            <hr>
         	<input ng-model="title" type="text" class="form-control" placeholder="请输入标题" style="border:2px solid rgb(41,41,41)">
         	<hr>
             
@@ -57,15 +53,13 @@
             
 	        <div id="epiceditor"></div>
         	<hr>
-	        <input ng-click="newBlog()" class="btn btn-default" type="submit" value="Submit">
+	        <input ng-click="editBlog()" class="btn btn-default" type="submit" value="Submit">
 		</div>
     </article>
 
     <hr>
 <script src="../static/epiceditor/js/epiceditor.js"></script>
 <script type="text/javascript">
-    var currentTitle = $("title").text();
-    $("title").text("{{site_title}} - "+currentTitle);
 	var opts = {
 			autogrow: {
 				minHeight: 500

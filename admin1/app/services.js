@@ -2,10 +2,10 @@
 
 /* Services */
 
-var fireblogServices = angular.module('fireblogServices', []);
+var fireblogAdminServices = angular.module('fireblogAdminServices', []);
 
-fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
-    function($firebaseArray, $firebaseObject, ConfigService) {
+fireblogAdminServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
+    function($firebaseArray, $firebaseObject) {
         var cacheData;
         var allTags = {};
         var allCats = {};
@@ -13,7 +13,7 @@ fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
         var catMax = 1;
         var allBlogByTag = {};
         var allBlogByCat = {};
-
+        
         function setAllTagsAndCats(cacheData){
             var tags;
             var cat;
@@ -68,25 +68,32 @@ fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
                         }
                     }
                 }
+//            console.log(allTags);
+//            console.log(allCats);
+//                console.log(allBlogByCat);
+//                console.log("allblogbycat");
+//                console.log(allBlogByTag);
+//                console.log("allblogbytag");
             });
         }
         
         function getData(){
             if(cacheData){
+                console.log("cachedData");
                 return cacheData;
             }else{
-                var ref = new Firebase("https://github-pages.firebaseio.com/users/"+CONFIG_UID+"/blogs");
+                var ref = new Firebase("https://github-pages.firebaseio.com/blogs");
                 cacheData =  $firebaseArray(ref);
                 
-                console.log(cacheData);
                 setAllTagsAndCats(cacheData);
+                console.log("NewData");
                 
                 return cacheData;
             }
         }
         
         function getObjectByID(id){
-            var ref = new Firebase("https://github-pages.firebaseio.com/users/"+CONFIG_UID+"/blogs/"+id);
+            var ref = new Firebase("https://github-pages.firebaseio.com/blogs/"+id);
             return $firebaseObject(ref);
         }
         
@@ -155,15 +162,15 @@ fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
 ]);
 
 
-fireblogServices.factory("OptionService", ["$firebaseObject",
-    function($firebaseObject, ConfigService) {
+fireblogAdminServices.factory("OptionService", ["$firebaseObject",
+    function($firebaseObject) {
         var cacheBasic;
         
         function getBasic(){
             if(cacheBasic){
                 return cacheBasic;
             }else{
-                var ref = new Firebase("https://github-pages.firebaseio.com/users/"+CONFIG_UID+"/options/basic");
+                var ref = new Firebase("https://github-pages.firebaseio.com/options/basic");
                 cacheBasic =  $firebaseObject(ref);
                 
                 return cacheBasic;
@@ -185,7 +192,6 @@ fireblogServices.factory("OptionService", ["$firebaseObject",
                 $("#archives_link").css("font-size","12px");
                 $("#cats_link").css("font-size","12px");
                 $("#tags_link").css("font-size","12px");
-                $("#config_link").css("font-size","12px");
                 
                 $("#"+page_name+"_link").css("font-size","20px");
             }
@@ -193,7 +199,7 @@ fireblogServices.factory("OptionService", ["$firebaseObject",
     }
 ]);
 
-fireblogServices.factory("AuthService", ["$q", "$window", "$location", "$firebaseObject", "$firebaseAuth",
+fireblogAdminServices.factory("AuthService", ["$q", "$window", "$location", "$firebaseObject", "$firebaseAuth",
     function($q, $window, $location, $firebaseObject, $firebaseAuth) {
         var isLoggedIn = false;
         var uid = '';
@@ -213,63 +219,58 @@ fireblogServices.factory("AuthService", ["$q", "$window", "$location", "$firebas
         function authDataCallback(authData) {
             if(authData){
                 console.log("User "+authData.uid+" is logged in with "+authData.provider);
-                uid = authData.uid;
                 isLoggedIn = true;
                 var user = $firebaseObject(ref.child('users').child(authData.uid));
                 user.$loaded().then(function(){
-                    console.log(user);
-                    console.log("the username:"+user.name);
                     if(user.name == undefined){
                         var timestamp = new Date().getTime();
-
-                        var newUser = {};
-                        newUser['name'] = authData.github.username;
-                        newUser['blogs'] = {};
-                        newUser['blogs'][""+timestamp+""] = {};
-                        newUser['blogs'][""+timestamp+""]['title'] = "My First Blog";
-                        newUser['blogs'][""+timestamp+""]['snippet'] = "";
-                        newUser['blogs'][""+timestamp+""]['cat'] = "UNCATEGORIZED";
-                        newUser['blogs'][""+timestamp+""]['tag'] = "";
-                        newUser['blogs'][""+timestamp+""]['content'] = "<p>HELLO WORLD!!!\n\n</p>\n<p>Welcome to My <code>Blog</code>!!!</p>\n";
-                        newUser['blogs'][""+timestamp+""]['raw_content'] = "HELLO WORLD!!!<div><br><div>Welcome to My `Blog`!!!</div></div>";
-                        newUser['blogs'][""+timestamp+""]['date'] = timestamp
-                        newUser['options'] = {};
-                        newUser['options']['basic'] = {};
-                        newUser['options']['basic']['username'] = "新用户";
-                        newUser['options']['basic']['sitename'] = "MY FIRE BLOG";
-                        newUser['options']['basic']['motto'] = "Let's make some noise.";
-                        newUser['options']['basic']['navbar_text'] = "NEW USER";
-                        newUser['options']['basic']['github'] = authData.github.username;
-                        newUser['options']['basic']['facebook'] = "";
-                        newUser['options']['basic']['twitter'] = "";
-                        newUser['options']['basic']['weibo'] = "";
-                        newUser['options']['basic']['weibo_link'] = "";
-
+                        var newUser = {
+                            name: authData.github.username,
+                            blogs: [],
+                            options: {
+                                basic: {
+                                    username: "新用户",
+                                    sitename: "MY FIRE BLOG",
+                                    motto: "Let's make some noise.",
+                                    navbar_text: "NEW USER",
+                                    github: authData.github.username,
+                                    facebook: "",
+                                    twitter: "",
+                                    weibo: "",
+                                    weibo_link: "",
+                                }
+                            }
+                        };
 
                         user.$ref().set(newUser);
-                        console.log(user);
+                        user.$ref().child('blogs').child(""+timestamp).set({
+                            title: "My First Blog",
+                            snippet: "",
+                            cat: "UNCATEGORIZED",
+                            tag: "",
+                            content: "<p>HELLO WORLD!!!\n\n</p>\n<p>Welcome to My <code>Blog</code>!!!</p>\n",
+                            raw_content: "HELLO WORLD!!!<div><br><div>Welcome to My `Blog`!!!</div></div>",
+                            date: timestamp,
+                        });
                     }
                 });
             }else{
                 console.log("User is logged out.");
                 isLoggedIn = false;
-                uid = "";
             }
         }
         
         function logout() {
             ref.unauth();
-            $location.path('/');
+            $location.path('/login');
         }
 
         function firebaseAuthLogin(provider) {
             authObj.$authWithOAuthPopup(provider).then(function(authData){
                 console.log("Authenticated successfully with provider "+provider+" with payload:",authData);
-                uid = authData.uid;
-                $location.path('/admin/archives');
+                $location.path('/');
             }).catch(function(error){
                 console.error("Authentication failed:",error);
-                uid = "";
             });
         }
 
@@ -299,7 +300,7 @@ fireblogServices.factory("AuthService", ["$q", "$window", "$location", "$firebas
                 } else {
                     console.log("reject");
                     deferred.reject();
-                    $location.path('/admin/login');
+                    $window.location.href = "#/login";
                 }
 
                 return deferred.promise;

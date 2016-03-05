@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="fireblogApp" ng-controller="OptionCtrl">
+<html lang="en" ng-app="fireblogAdminApp" ng-controller="OptionCtrl">
 
 <head>
 
@@ -57,29 +57,14 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right" ng-if="!AuthService.isLoggedIn()">
+                <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="#/" id="home_link">主页</a>
                     </li>
                     <li>
                         <a href="#/archives" id="archives_link">归档</a>
                     </li>
-                    <li>
-                        <a href="#/cats" id="cats_link">分类</a>
-                    </li>
-                    <li>
-                        <a href="#/tags" id="tags_link">标签</a>
-                    </li>
-                </ul>
-
-                <ul class="nav navbar-nav navbar-right" ng-if="AuthService.isLoggedIn()">
-                    <li>
-                        <a href="#/admin/config" id="config_link">配置</a>
-                    </li>
-                    <li>
-                        <a href="#/admin/archives" id="archives_link">归档</a>
-                    </li>
-                    <li>
+                    <li ng-if="AuthService.isLoggedIn()">
                         <a href="" ng-click="AuthService.logout()">注销</a>
                     </li>
                 </ul>
@@ -130,7 +115,7 @@
                             </a>
                         </li>
                     </ul>
-                    <p class="copyright text-muted">Copyright <a href="#/admin/login">&copy;</a> {{option.sitename}} 2016</p>
+                    <p class="copyright text-muted">Copyright &copy; {{option.sitename}} 2016</p>
                 </div>
             </div>
         </div>
@@ -161,7 +146,6 @@
      
      
 
-    <script src="./app/config.js"></script>
     <script src="./app/app.js"></script>
     <script src="./app/controllers.js"></script>
     <script src="./app/services.js"></script>

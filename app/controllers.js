@@ -4,9 +4,10 @@
 
 var fireblogControllers = angular.module('fireblogControllers', []);
 
-fireblogControllers.controller('OptionCtrl', ['$scope', "OptionService", 
-	function ($scope, OptionService){
+fireblogControllers.controller('OptionCtrl', ['$scope', "OptionService", "AuthService", 
+    function ($scope, OptionService, AuthService){
         $scope.option =  OptionService.basic();
+        $scope.AuthService = AuthService;
     }
 ]);
 
@@ -102,7 +103,7 @@ fireblogControllers.controller('BlogPostCtrl', ['$scope', "OptionService", "Blog
         }
         
         $scope.clearCat = function() {
-            $scope.cat = $scope.cat.split(' ')[0].toLowerCase();
+            $scope.cat = $scope.cat.split(' ')[0].toUpperCase();
         }
         
         $scope.clearTags = function() {
@@ -114,7 +115,7 @@ fireblogControllers.controller('BlogPostCtrl', ['$scope', "OptionService", "Blog
             editor.preview();
             var content = $($(editor.getElement('previewer').body).children()[0]).html();
             if( $scope.title != "" && raw_content != ""){
-                var blogsRef = new Firebase("https://github-pages.firebaseio.com/blogs/");
+                var blogsRef = new Firebase("https://github-pages.firebaseio.com/users/"+CONFIG_UID+"/blogs/");
                 var date = new Date().getTime();
                 var id = date;
                 
@@ -147,10 +148,12 @@ fireblogControllers.controller('BlogPostCtrl', ['$scope', "OptionService", "Blog
 
 fireblogControllers.controller('BlogEditCtrl', ['$scope', "OptionService", "BlogService", "$window", "$firebaseObject", "$sce", "$routeParams",
 	function ($scope, OptionService, BlogService, $window, $firebaseObject, $sce, $routeParams){
-        var blogRef = new Firebase("https://github-pages.firebaseio.com/blogs/"+$routeParams.blogId);
+        var blogRef = new Firebase("https://github-pages.firebaseio.com/users/"+CONFIG_UID+"/blogs/"+$routeParams.blogId);
         var blog =  $firebaseObject(blogRef);
         
-        
+        $scope.title = "";
+        $scope.cat = "";
+        $scope.tags = "";
         $scope.allCats = BlogService.getAllCats();
         $scope.allTags = BlogService.getAllTags();
         
@@ -163,11 +166,11 @@ fireblogControllers.controller('BlogEditCtrl', ['$scope', "OptionService", "Blog
         }
         
         $scope.clearCat = function() {
-            $scope.cat = $scope.cat.split(' ')[0].toLowerCase();
+            $scope.cat = $scope.cat.split(' ')[0].toUpperCase();
         }
         
         $scope.clearTags = function() {
-            $scope.tags = $.trim($scope.tags.toLowerCase());
+            $scope.tags = $scope.tags==undefined?"":$.trim($scope.tags.toLowerCase());
         }
         
 		blog.$loaded()
@@ -190,9 +193,9 @@ fireblogControllers.controller('BlogEditCtrl', ['$scope', "OptionService", "Blog
             if( $scope.title != "" && raw_content != ""){
                 var date = new Date().getTime();
                 
+                $scope.clearCat();
                 $scope.clearTags();
-                $scope.clearTags();
-                var cat = $scope.cat==""?"uncategorized":$scope.cat;
+                var cat = $scope.cat==""?"UNCATEGORIZED":$scope.cat;
                 var tags = $scope.tags;
                 blog.title = $scope.title;
                 blog.content = content;
@@ -258,12 +261,83 @@ fireblogControllers.controller('TagOneCtrl', ['$scope', "BlogService", "OptionSe
         OptionService.setCurrentNav("");
     }
 ]);
+
 fireblogControllers.controller('ArchiveCtrl', ['$scope', "BlogService", "OptionService",
 	function ($scope, BlogService, OptionService){
         $scope.blogs = BlogService.getAll();
         
+        $scope.deleteBlog = function(blog) {
+            $scope.blogs.$remove(blog);
+        }
+
         var page_name = "ARCHIVES";
         var site_name = OptionService.setSiteTitle(page_name);
         OptionService.setCurrentNav("archives");
+    }
+]);
+
+fireblogControllers.controller('ConfigCtrl', ['$scope', "$window", "AuthService", "OptionService", "$firebaseObject",
+    function ($scope, $window, AuthService, OptionService, $firebaseObject){
+        $scope.OptionService = OptionService;
+        var basic = OptionService.basic();
+
+        // var ref = new Firebase("https://github-pages.firebaseio.com/users/"+CONFIG_UID+"/options/basic");
+        // var basic =  $firebaseObject(ref);
+
+
+
+        basic.$loaded().then(function(data){
+            $scope.sitename = basic.sitename;
+            $scope.username = basic.username;
+            $scope.motto = basic.motto;
+            $scope.navbar_text = basic.navbar_text;
+            $scope.github = basic.github;
+            $scope.facebook = basic.facebook;
+            $scope.twitter = basic.twitter;
+            $scope.weibo = basic.weibo;
+            $scope.weibo_link = basic.weibo_link;
+        });
+
+        $scope.AuthService = AuthService;
+
+        $scope.editBasicOption = function() {
+
+            basic.sitename = $scope.sitename;
+            basic.username = $scope.username;
+            basic.motto = $scope.motto;
+            basic.navbar_text = $scope.navbar_text;
+            // basic.github = $scope.github;
+            basic.facebook = $scope.facebook;
+            basic.twitter = $scope.twitter;
+            basic.weibo = $scope.weibo;
+            basic.weibo_link = $scope.weibo_link;
+
+            basic.$save().then(function(ref) {
+                ref.key() === basic.$id; // true
+                alert("Website Configs Updated!");
+            }, function(error) {
+              console.log("Error:", error);
+            });
+        }
+        
+        var page_name = "CONFIG";
+        var site_name = OptionService.setSiteTitle(page_name);
+        OptionService.setCurrentNav("config");
+    }
+]);
+
+fireblogControllers.controller('LoginCtrl', ['$scope', "$window", "AuthService", "OptionService",
+    function ($scope, $window, AuthService, OptionService){
+        $scope.isLoggedIn = AuthService.isLoggedIn();
+        $scope.AuthService = AuthService;
+
+        if($scope.isLoggedIn){
+            $window.location.href = "#/";
+        }
+
+        
+        var page_name = "LOGIN";
+        var site_name = OptionService.setSiteTitle(page_name);
+        OptionService.setCurrentNav("");
     }
 ]);
