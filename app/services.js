@@ -294,10 +294,12 @@ fireblogServices.factory("AuthService", ["$q", "$window", "$location", "$firebas
                 var deferred = $q.defer();
 
                 if (isLoggedIn) {
-                    console.log("resolve");
-                    deferred.resolve();
+                    if(uid!=CONFIG_UID){
+                        deferred.reject();
+                    }else{
+                        deferred.resolve();
+                    }
                 } else {
-                    console.log("reject");
                     deferred.reject();
                     $location.path('/admin/login');
                 }
