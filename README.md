@@ -13,6 +13,26 @@ A github pages Blog system powered by AngularJS and Firebase and Bootstrap.
 
 [Clean Blog](http://startbootstrap.com/template-overviews/clean-blog/)
 
+instruction
+---
+
+1 log in with github account
+
+![login](http://7u2sl0.com1.z0.glb.clouddn.com/fireblog_login_with_github.png)
+
+2 find the uid
+
+![config page](http://7u2sl0.com1.z0.glb.clouddn.com/fireblog_config_page.png)
+
+3 edit the config.js file
+
+![set config](http://7u2sl0.com1.z0.glb.clouddn.com/fireblog_config.png)
+
+4 you can now manage your blogs here
+
+![archives](http://7u2sl0.com1.z0.glb.clouddn.com/fireblog_archives.png)
+
+
 development
 ---
 Basic Routing Structure:
