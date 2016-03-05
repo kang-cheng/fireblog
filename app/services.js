@@ -78,7 +78,7 @@ fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
                 var ref = new Firebase("https://github-pages.firebaseio.com/users/"+CONFIG_UID+"/blogs");
                 cacheData =  $firebaseArray(ref);
                 
-                console.log(cacheData);
+                // console.log(cacheData);
                 setAllTagsAndCats(cacheData);
                 
                 return cacheData;
@@ -98,7 +98,7 @@ fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
                         result.push(cacheData.$getRecord(allTags[tagname]['id'][i]));
                     }
                 }
-                console.log(result);
+                // console.log(result);
                 return result;
             });
         }
@@ -111,7 +111,7 @@ fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
                     result[blog.$id] = blog.title;
                 }
             }
-            console.log(result);
+            // console.log(result);
             return result;
         }
 
@@ -131,7 +131,7 @@ fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
             },
             getAllCats: function() {
                 getData();
-                console.log(allCats);
+                // console.log(allCats);
                 return allCats;
             },
             getAllByTag: function(tagname) {
@@ -143,11 +143,11 @@ fireblogServices.factory("BlogService", ["$firebaseArray", "$firebaseObject",
                 return allBlogByCat;
             },
             getTagMax: function() {
-                console.log("tagMax:"+tagMax);
+                // console.log("tagMax:"+tagMax);
                 return tagMax;
             },
             getCatMax: function() {
-                console.log("catMax:"+catMax);
+                // console.log("catMax:"+catMax);
                 return catMax;
             }
         };
@@ -212,46 +212,50 @@ fireblogServices.factory("AuthService", ["$q", "$window", "$location", "$firebas
 
         function authDataCallback(authData) {
             if(authData){
-                console.log("User "+authData.uid+" is logged in with "+authData.provider);
+                // console.log("User "+authData.uid+" is logged in with "+authData.provider);
                 uid = authData.uid;
-                isLoggedIn = true;
-                var user = $firebaseObject(ref.child('users').child(authData.uid));
-                user.$loaded().then(function(){
-                    console.log(user);
-                    console.log("the username:"+user.name);
-                    if(user.name == undefined){
-                        var timestamp = new Date().getTime();
+                if(uid == CONFIG_UID){
+                    isLoggedIn = true;
+                    var user = $firebaseObject(ref.child('users').child(authData.uid));
+                    user.$loaded().then(function(){
+                        // console.log(user);
+                        // console.log("the username:"+user.name);
+                        if(user.name == undefined){
+                            var timestamp = new Date().getTime();
 
-                        var newUser = {};
-                        newUser['name'] = authData.github.username;
-                        newUser['blogs'] = {};
-                        newUser['blogs'][""+timestamp+""] = {};
-                        newUser['blogs'][""+timestamp+""]['title'] = "My First Blog";
-                        newUser['blogs'][""+timestamp+""]['snippet'] = "";
-                        newUser['blogs'][""+timestamp+""]['cat'] = "UNCATEGORIZED";
-                        newUser['blogs'][""+timestamp+""]['tag'] = "";
-                        newUser['blogs'][""+timestamp+""]['content'] = "<p>HELLO WORLD!!!\n\n</p>\n<p>Welcome to My <code>Blog</code>!!!</p>\n";
-                        newUser['blogs'][""+timestamp+""]['raw_content'] = "HELLO WORLD!!!<div><br><div>Welcome to My `Blog`!!!</div></div>";
-                        newUser['blogs'][""+timestamp+""]['date'] = timestamp
-                        newUser['options'] = {};
-                        newUser['options']['basic'] = {};
-                        newUser['options']['basic']['username'] = "新用户";
-                        newUser['options']['basic']['sitename'] = "MY FIRE BLOG";
-                        newUser['options']['basic']['motto'] = "Let's make some noise.";
-                        newUser['options']['basic']['navbar_text'] = "NEW USER";
-                        newUser['options']['basic']['github'] = authData.github.username;
-                        newUser['options']['basic']['facebook'] = "";
-                        newUser['options']['basic']['twitter'] = "";
-                        newUser['options']['basic']['weibo'] = "";
-                        newUser['options']['basic']['weibo_link'] = "";
+                            var newUser = {};
+                            newUser['name'] = authData.github.username;
+                            newUser['blogs'] = {};
+                            newUser['blogs'][""+timestamp+""] = {};
+                            newUser['blogs'][""+timestamp+""]['title'] = "My First Blog";
+                            newUser['blogs'][""+timestamp+""]['snippet'] = "";
+                            newUser['blogs'][""+timestamp+""]['cat'] = "UNCATEGORIZED";
+                            newUser['blogs'][""+timestamp+""]['tag'] = "";
+                            newUser['blogs'][""+timestamp+""]['content'] = "<p>HELLO WORLD!!!\n\n</p>\n<p>Welcome to My <code>Blog</code>!!!</p>\n";
+                            newUser['blogs'][""+timestamp+""]['raw_content'] = "HELLO WORLD!!!<div><br><div>Welcome to My `Blog`!!!</div></div>";
+                            newUser['blogs'][""+timestamp+""]['date'] = timestamp
+                            newUser['options'] = {};
+                            newUser['options']['basic'] = {};
+                            newUser['options']['basic']['username'] = "新用户";
+                            newUser['options']['basic']['sitename'] = "MY FIRE BLOG";
+                            newUser['options']['basic']['motto'] = "Let's make some noise.";
+                            newUser['options']['basic']['navbar_text'] = "NEW USER";
+                            newUser['options']['basic']['github'] = authData.github.username;
+                            newUser['options']['basic']['facebook'] = "";
+                            newUser['options']['basic']['twitter'] = "";
+                            newUser['options']['basic']['weibo'] = "";
+                            newUser['options']['basic']['weibo_link'] = "";
 
 
-                        user.$ref().set(newUser);
-                        console.log(user);
-                    }
-                });
+                            user.$ref().set(newUser);
+                            // console.log(user);
+                        }
+                    });
+                }else{
+                    alert("你不是这个网站的主人！");
+                }
             }else{
-                console.log("User is logged out.");
+                // console.log("User is logged out.");
                 isLoggedIn = false;
                 uid = "";
             }
@@ -264,11 +268,11 @@ fireblogServices.factory("AuthService", ["$q", "$window", "$location", "$firebas
 
         function firebaseAuthLogin(provider) {
             authObj.$authWithOAuthPopup(provider).then(function(authData){
-                console.log("Authenticated successfully with provider "+provider+" with payload:",authData);
+                // console.log("Authenticated successfully with provider "+provider+" with payload:",authData);
                 uid = authData.uid;
                 $location.path('/admin/archives');
             }).catch(function(error){
-                console.error("Authentication failed:",error);
+                // console.error("Authentication failed:",error);
                 uid = "";
             });
         }
@@ -294,9 +298,6 @@ fireblogServices.factory("AuthService", ["$q", "$window", "$location", "$firebas
                 var deferred = $q.defer();
 
                 if (isLoggedIn) {
-                    console.log(uid!=CONFIG_UID);
-                    console.log(uid);
-                    console.log(CONFIG_UID);
                     if(uid!=CONFIG_UID){
                         deferred.reject();
                     }else{
