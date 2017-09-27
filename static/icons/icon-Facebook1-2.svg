@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #F8F8F8;">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-Facebook1-2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M18.9071038,7.07446809 C17.8142077,6.75531915 16.557377,6.54255319 15.4098361,6.54255319 C13.989071,6.54255319 10.9289617,7.44680851 10.9289617,9.20212766 L10.9289617,13.4042553 L18.1967213,13.4042553 L18.1967213,20.4787234 L10.9289617,20.4787234 L10.9289617,40 L3.60655738,40 L3.60655738,20.4787234 L0,20.4787234 L0,13.4042553 L3.60655738,13.4042553 L3.60655738,9.84042553 C3.60655738,4.46808511 6.12021858,0 12.1857923,0 C14.2622951,0 17.9781421,0.106382979 20,0.79787234 L18.9071038,7.07446809 Z" id="path-1"></path>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#02FBCA" offset="0%"></stop>
+            <stop stop-color="#19B7FE" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon-Facebook1-2">
+            <rect id="Rectangle-2" fill="#FFFFFF" x="-1" y="0" width="49" height="48"></rect>
+            <g id="layer" transform="translate(14.000000, 4.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use fill="#FFFFFF" xlink:href="#path-1"></use>
+                <g mask="url(#mask-2)" fill="url(#linearGradient-3)">
+                    <g transform="translate(-10.000000, 0.000000)">
+                        <rect x="0" y="0" width="40" height="40"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
