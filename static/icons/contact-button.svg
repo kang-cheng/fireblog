@@ -21,7 +21,7 @@
                                 </g>
                             </g>
                             <path d="M154,11.5 L137,20 C140.215272,16.9898602 141.822909,14.1565269 141.822909,11.5 C141.822909,8.84347312 140.215272,6.01013979 137,3 L154,11.5 Z" id="Triangle-2" fill="#0FD2E9"></path>
-                            <text id="Contact-us" font-family="'Avenir', Helvetica, Arial, sans-serif" font-size="18" font-weight="normal" fill="#0FD2E9">
+                            <text id="Contact-us" font-family="'Open Sans', sans-serif" font-size="18" font-weight="normal" fill="#0FD2E9">
                                 <tspan x="26.0634766" y="19">Contact us</tspan>
                             </text>
                             <path d="M125.5,2.5 L125.5,20.5" id="Line" stroke="#0FD2E9" stroke-linecap="square"></path>
